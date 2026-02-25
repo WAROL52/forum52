@@ -1,0 +1,39 @@
+{
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "biome.lsp.trace.server": "messages",
+  "biome.requireConfiguration": true,
+  "editor.codeActionsOnSave": {
+    "source.addMissingImports.ts": "always",
+    "source.fixAll.biome": "explicit",
+    "source.fixAll.ts": "explicit",
+    "source.organizeImports.biome": "always",
+    "source.sort.json": "never"
+  },
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.insertSpaces": true,
+  "editor.renderWhitespace": "all",
+  "editor.tabSize": 2,
+  "tailwindcss-intellisense.trace.server": "messages",
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "class:list",
+    ".className"
+  ],
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.lint.cssConflict": "error",
+  "tailwindCSS.lint.recommendedVariantOrder": "warning"
+}

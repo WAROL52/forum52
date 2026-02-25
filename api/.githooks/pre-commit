@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# Colors for output
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+# Configuration
+API_DOC_FILE="config/packages/dev/nelmio_api_doc.yaml"
+DTO_PATTERN="src/DTO/"
+
+# Check if DTOs have been modified in this commit
+dto_changes=$(git diff --cached --name-only | grep "^${DTO_PATTERN}" || true)
+
+if [ -z "$dto_changes" ]; then
+    # No DTO changes, allow commit
+    exit 0
+fi
+
+echo -e "${YELLOW}⚠️  DTO files have been modified:${NC}"
+echo "$dto_changes" | sed 's/^/  - /'
+echo ""
+
+# Check if API doc version file has also been modified
+api_doc_modified=$(git diff --cached --name-only | grep "^${API_DOC_FILE}$" || true)
+
+if [ -n "$api_doc_modified" ]; then
+    # API doc was modified, check if version changed
+    version_changed=$(git diff --cached "$API_DOC_FILE" | grep -E "^\+.*version:|^\-.*version:" || true)
+
+    if [ -n "$version_changed" ]; then
+        echo -e "${GREEN}✓ API version has been updated in $API_DOC_FILE${NC}"
+        exit 0
+    else
+        echo -e "${YELLOW}⚠️  $API_DOC_FILE was modified but version didn't change${NC}"
+    fi
+fi
+
+# If we're here, either API doc wasn't modified or version didn't change
+echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${YELLOW}WARNING: DTOs modified but API version not updated${NC}"
+echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo ""
+echo "You've modified DTO files but haven't updated the API version."
+echo ""
+echo "If this is a breaking change or new feature, consider updating:"
+echo "  ${API_DOC_FILE}"
+echo ""
+echo "Current version line:"
+git show HEAD:"${API_DOC_FILE}" 2>/dev/null | grep -A 1 "version:" || echo "  (Unable to read current version)"
+echo ""
+echo -e "${YELLOW}Options:${NC}"
+echo "  1. Update the version in ${API_DOC_FILE} and re-commit"
+echo "  2. Continue anyway if this is a minor change (y/n)"
+echo ""
+read -p "Continue with commit? [y/N] " -n 1 -r
+echo ""
+
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo -e "${RED}✗ Commit aborted${NC}"
+    echo ""
+    echo "To update the version, edit: ${API_DOC_FILE}"
+    echo "Then stage it with: git add ${API_DOC_FILE}"
+    exit 1
+fi
+
+echo -e "${GREEN}✓ Continuing with commit...${NC}"
+exit 0

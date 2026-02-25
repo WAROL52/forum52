@@ -1,0 +1,2 @@
+# Ensure Git hooks are executable on all platforms
+.githooks/pre-commit text eol=lf

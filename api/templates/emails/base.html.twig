@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333333;
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+
+        .email-wrapper {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .email-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 30px;
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .email-header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .email-header p {
+            margin-top: 8px;
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .email-body {
+            padding: 40px 30px;
+        }
+
+        .greeting {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .content {
+            font-size: 15px;
+            color: #555555;
+            margin-bottom: 20px;
+        }
+
+        .content p {
+            margin-bottom: 15px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff !important;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 15px;
+            text-align: center;
+            transition: transform 0.2s;
+            margin: 20px 0;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .info-box {
+            background-color: #e8f4f8;
+            border-left: 4px solid #3498db;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .success-box {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #e0e0e0, transparent);
+            margin: 30px 0;
+        }
+
+        .email-footer {
+            background-color: #f9f9f9;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .email-footer p {
+            color: #7f8c8d;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .social-links {
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 8px;
+            color: #7f8c8d;
+            text-decoration: none;
+            font-size: 12px;
+        }
+
+        .social-links a:hover {
+            color: #667eea;
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            .email-header {
+                padding: 30px 20px;
+            }
+
+            .email-header h1 {
+                font-size: 24px;
+            }
+
+            .email-body {
+                padding: 30px 20px;
+            }
+
+            .button {
+                display: block;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-wrapper">
+        {# Header Section #}
+        <div class="email-header">
+            <h1>{% block header_title %}Titre du message{% endblock %}</h1>
+            {% block header_subtitle %}
+            <p>Sous-titre optionnel</p>
+            {% endblock %}
+        </div>
+
+        {# Body Section #}
+        <div class="email-body">
+            {# Greeting #}
+            <div class="greeting">
+                {% block greeting %}
+                Bonjour{% if userName %} {{ userName }}{% endif %},
+                {% endblock %}
+            </div>
+
+            {# Main Content #}
+            <div class="content">
+                {% block content %}
+                <p>Contenu principal de votre email ici.</p>
+                {% endblock %}
+            </div>
+
+            {# Optional Call to Action #}
+            {% block cta %}
+            {# Exemple d'utilisation :
+            <div style="text-align: center;">
+                <a href="{{ actionUrl }}" class="button">Bouton d'action</a>
+            </div>
+            #}
+            {% endblock %}
+
+            {# Optional Additional Content #}
+            {% block additional_content %}
+            {% endblock %}
+        </div>
+
+        {# Footer Section #}
+        <div class="email-footer">
+            {% block footer %}
+            <p>Cet email a été envoyé automatiquement, merci de ne pas y répondre.</p>
+            <p>© {{ "now"|date("Y") }} Votre Application. Tous droits réservés.</p>
+
+            <div class="divider"></div>
+
+            <p style="font-size: 12px; color: #95a5a6;">
+                Si vous avez des questions, contactez-nous à <a href="mailto:support@example.com" style="color: #667eea; text-decoration: none;">support@example.com</a>
+            </p>
+            {% endblock %}
+        </div>
+    </div>
+</body>
+</html>

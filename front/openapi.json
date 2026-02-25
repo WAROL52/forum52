@@ -1,0 +1,1171 @@
+{
+  "components": {
+    "parameters": {
+      "BusinessId": {
+        "description": "Business context id (multi-tenant)",
+        "in": "header",
+        "name": "Business-Id",
+        "required": false,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "carIdPath": {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      },
+      "userIdPath": {
+        "in": "path",
+        "name": "id",
+        "required": true,
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "schemas": {
+      "AuthRequest": {
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          }
+        },
+        "required": ["username", "password"],
+        "type": "object"
+      },
+      "AuthResponse": {
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object"
+          }
+        },
+        "type": "object"
+      },
+      "Business": {
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "siren": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Car": {
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "color": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          },
+          "km": {
+            "type": ["integer", "null"]
+          },
+          "model": {
+            "type": "string"
+          },
+          "plate": {
+            "type": "string"
+          },
+          "price": {
+            "type": ["number", "null"]
+          },
+          "status": {
+            "type": "string"
+          },
+          "year": {
+            "type": ["integer", "null"]
+          }
+        },
+        "type": "object"
+      },
+      "CarsListResponse": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Car"
+            },
+            "type": "array"
+          },
+          "pagination": {
+            "$ref": "#/components/schemas/Pagination"
+          }
+        },
+        "type": "object"
+      },
+      "DepositCar": {
+        "properties": {
+          "plate": {
+            "type": "string"
+          }
+        },
+        "required": ["plate"],
+        "type": "object"
+      },
+      "EquipmentCreate": {
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["name"],
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "error": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "MessageResponse": {
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Pagination": {
+        "properties": {
+          "page": {
+            "type": "integer"
+          },
+          "pageSize": {
+            "type": "integer"
+          },
+          "total": {
+            "type": "integer"
+          },
+          "totalPages": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "RegisterRequest": {
+        "properties": {
+          "business": {
+            "$ref": "#/components/schemas/Business"
+          },
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        },
+        "required": ["email", "password", "firstName", "lastName", "business"],
+        "type": "object"
+      },
+      "UpdateCar": {
+        "properties": {
+          "comment": {
+            "type": ["string", "null"]
+          },
+          "km": {
+            "type": "integer"
+          },
+          "price": {
+            "type": "string"
+          },
+          "status": {
+            "type": ["string", "integer"]
+          },
+          "year": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "UserCreate": {
+        "properties": {
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          }
+        },
+        "required": ["email", "firstName", "lastName"],
+        "type": "object"
+      },
+      "Visit": {
+        "properties": {
+          "car": {
+            "properties": {
+              "id": {
+                "type": "integer"
+              },
+              "plate": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "fullname": {
+            "type": "string"
+          },
+          "id": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "VisitCreate": {
+        "properties": {
+          "date": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "email": {
+            "format": "email",
+            "type": "string"
+          },
+          "fullname": {
+            "type": "string"
+          }
+        },
+        "required": ["date", "fullname", "email"],
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "bearerFormat": "JWT",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "description": "Converted from Postman collection: Infinitia",
+    "title": "Infinitia API",
+    "version": "1.0.0"
+  },
+  "openapi": "3.0.3",
+  "paths": {
+    "/api/cars": {
+      "get": {
+        "description": "List cars with pagination, search and filters",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "default": 1,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 10,
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "filters",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CarsListResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List Cars"
+      },
+      "post": {
+        "description": "Create a new car by plate",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DepositCar"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            },
+            "description": "Created"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Deposit Car"
+      }
+    },
+    "/api/cars/{id}": {
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Car"
+                }
+              }
+            },
+            "description": "OK"
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Show Car"
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/carIdPath"
+        }
+      ],
+      "patch": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCar"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Update Car Status / Comment (generic PATCH)"
+      },
+      "put": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCar"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Update Car"
+      }
+    },
+    "/api/cars/{id}/equipements": {
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/carIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EquipmentCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Add Equipment"
+      }
+    },
+    "/api/cars/{id}/equipements/{equipmentId}": {
+      "delete": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/carIdPath"
+          },
+          {
+            "in": "path",
+            "name": "equipmentId",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Remove Equipment"
+      }
+    },
+    "/api/cars/{id}/visits": {
+      "/api/car-file/{id}": {
+        "delete": {
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "$ref": "#/components/parameters/BusinessId"
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/MessageResponse"
+                  }
+                }
+              },
+              "description": "OK"
+            },
+            "404": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/ErrorResponse"
+                  }
+                }
+              },
+              "description": "Not Found"
+            }
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "summary": "Delete Media"
+        }
+      },
+      "/api/cars/{id}/media": {
+        "post": {
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/carIdPath"
+            },
+            {
+              "$ref": "#/components/parameters/BusinessId"
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "properties": {
+                    "fileObject": {
+                      "format": "binary",
+                      "type": "string"
+                    },
+                    "isCover": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "type": {
+                      "type": "integer"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "required": true
+          },
+          "responses": {
+            "201": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/MessageResponse"
+                  }
+                }
+              },
+              "description": "Created"
+            }
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "summary": "Upload Media"
+        }
+      },
+      "/api/public/business/{id}/vehicles": {
+        "get": {
+          "parameters": [
+            {
+              "in": "path",
+              "name": "id",
+              "required": true,
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "page",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "limit",
+              "schema": {
+                "type": "integer"
+              }
+            },
+            {
+              "in": "query",
+              "name": "search",
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "in": "query",
+              "name": "filters",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/CarsListResponse"
+                  }
+                }
+              },
+              "description": "OK"
+            }
+          },
+          "summary": "Business Vehicles Catalog (public)"
+        }
+      },
+      "/api/public/drive-agencies": {
+        "get": {
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          },
+          "summary": "List Drive Agencies"
+        }
+      },
+      "/api/stats": {
+        "/api/admin/businesses": {
+          "get": {
+            "responses": {
+              "200": {
+                "description": "OK"
+              }
+            },
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "summary": "List Businesses"
+          }
+        },
+        "/api/admin/businesses/{id}/partner": {
+          "patch": {
+            "parameters": [
+              {
+                "in": "path",
+                "name": "id",
+                "required": true,
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "OK"
+              }
+            },
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "summary": "Set Business as Partner"
+          }
+        },
+        "/api/auth": {
+          "/api/register": {
+            "/api/reset-password": {
+              "post": {
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          },
+                          "password": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["email", "code", "password"],
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "required": true
+                },
+                "responses": {
+                  "200": {
+                    "description": "OK"
+                  }
+                },
+                "summary": "Reset Password"
+              }
+            },
+            "/api/send-code": {
+              "post": {
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "properties": {
+                          "email": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["email"],
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "required": true
+                },
+                "responses": {
+                  "200": {
+                    "description": "OK"
+                  }
+                },
+                "summary": "Send Code"
+              }
+            },
+            "/api/users": {
+              "get": {
+                "parameters": [
+                  {
+                    "in": "query",
+                    "name": "page",
+                    "schema": {
+                      "type": "integer"
+                    }
+                  },
+                  {
+                    "in": "query",
+                    "name": "limit",
+                    "schema": {
+                      "type": "integer"
+                    }
+                  },
+                  {
+                    "$ref": "#/components/parameters/BusinessId"
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "OK"
+                  }
+                },
+                "security": [
+                  {
+                    "bearerAuth": []
+                  }
+                ],
+                "summary": "List Users"
+              },
+              "post": {
+                "parameters": [
+                  {
+                    "$ref": "#/components/parameters/BusinessId"
+                  }
+                ],
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/UserCreate"
+                      }
+                    }
+                  },
+                  "required": true
+                },
+                "responses": {
+                  "201": {
+                    "description": "Created"
+                  }
+                },
+                "security": [
+                  {
+                    "bearerAuth": []
+                  }
+                ],
+                "summary": "Create User"
+              }
+            },
+            "/api/users/{id}": {
+              "delete": {
+                "parameters": [
+                  {
+                    "$ref": "#/components/parameters/userIdPath"
+                  },
+                  {
+                    "$ref": "#/components/parameters/BusinessId"
+                  }
+                ],
+                "responses": {
+                  "200": {
+                    "description": "OK"
+                  }
+                },
+                "security": [
+                  {
+                    "bearerAuth": []
+                  }
+                ],
+                "summary": "Delete User"
+              }
+            },
+            "/api/verify-code": {
+              "post": {
+                "requestBody": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "properties": {
+                          "code": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["email", "code"],
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "required": true
+                },
+                "responses": {
+                  "200": {
+                    "description": "OK"
+                  }
+                },
+                "summary": "Verify Code"
+              }
+            },
+            "post": {
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/RegisterRequest"
+                    }
+                  }
+                },
+                "required": true
+              },
+              "responses": {
+                "201": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/AuthResponse"
+                      }
+                    }
+                  },
+                  "description": "Created"
+                }
+              },
+              "summary": "Register"
+            }
+          },
+          "post": {
+            "requestBody": {
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/AuthRequest"
+                  }
+                }
+              },
+              "required": true
+            },
+            "responses": {
+              "200": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/AuthResponse"
+                    }
+                  }
+                },
+                "description": "OK"
+              }
+            },
+            "summary": "Login"
+          }
+        },
+        "/api/stats/sales": {
+          "get": {
+            "parameters": [
+              {
+                "in": "query",
+                "name": "startDate",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              },
+              {
+                "in": "query",
+                "name": "endDate",
+                "schema": {
+                  "format": "date",
+                  "type": "string"
+                }
+              },
+              {
+                "$ref": "#/components/parameters/BusinessId"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "OK"
+              }
+            },
+            "security": [
+              {
+                "bearerAuth": []
+              }
+            ],
+            "summary": "Sales Stats"
+          }
+        },
+        "get": {
+          "parameters": [
+            {
+              "$ref": "#/components/parameters/BusinessId"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "OK"
+            }
+          },
+          "security": [
+            {
+              "bearerAuth": []
+            }
+          ],
+          "summary": "Dashboard Stats"
+        }
+      },
+      "get": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/carIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "visits": {
+                      "items": {
+                        "$ref": "#/components/schemas/Visit"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "List Visits"
+      },
+      "post": {
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/carIdPath"
+          },
+          {
+            "$ref": "#/components/parameters/BusinessId"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VisitCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Visit"
+                }
+              }
+            },
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "summary": "Create Visit"
+      }
+    }
+  },
+  "servers": [
+    {
+      "description": "Primary API server",
+      "url": "{host}",
+      "variables": {
+        "host": {
+          "default": "https://api.example.com"
+        }
+      }
+    }
+  ]
+}

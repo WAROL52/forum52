@@ -1,0 +1,114 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: Base API Symfony
+            description: API REST avec JWT, DTOs, pagination et filtrage générique
+            version: 1.1.0
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+                    bearerFormat: JWT
+            parameters:
+                PageParameter:
+                    name: page
+                    in: query
+                    description: Page number
+                    required: false
+                    schema:
+                        type: integer
+                        default: 1
+                        minimum: 1
+                LimitParameter:
+                    name: limit
+                    in: query
+                    description: Items per page
+                    required: false
+                    schema:
+                        type: integer
+                        default: 10
+                        minimum: 1
+                        maximum: 100
+                FiltersParameter:
+                    name: filters
+                    in: query
+                    description: 'JSON array of filters. Operators: eq (equals), ne (not equals), gt (greater than), lt (less than), gte (>=), lte (<=), in (in list - comma separated), not_in (not in list), like (contains), starts_with (begins with), ends_with (ends with)'
+                    required: false
+                    schema:
+                        type: string
+                    example: '[{"field":"title","operator":"like","value":"test"}]'
+            schemas:
+                FieldError:
+                    type: object
+                    required:
+                        - field
+                        - message
+                    properties:
+                        field:
+                            type: string
+                            description: The field that caused the error
+                            example: email
+                        message:
+                            type: string
+                            description: The error message for this field
+                            example: This value is not a valid email.
+                ErrorResponse:
+                    type: object
+                    required:
+                        - message
+                    properties:
+                        message:
+                            type: string
+                            description: Error code in UPPERCASE_SNAKE_CASE format
+                            example: INVALID_CREDENTIALS
+                        errors:
+                            type: array
+                            description: Array of field validation errors (optional, only present for validation errors)
+                            items:
+                                $ref: '#/components/schemas/FieldError'
+            responses:
+                BadRequestError:
+                    description: Bad request - validation error or invalid data
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            examples:
+                                validationError:
+                                    summary: Validation error with field violations
+                                    value:
+                                        message: VALIDATION_ERROR
+                                        errors:
+                                            - field: email
+                                              message: This value is not a valid email.
+                                            - field: firstName
+                                              message: This value should not be blank.
+                                simpleError:
+                                    summary: Simple error without field violations
+                                    value:
+                                        message: INVALID_VERIFICATION_CODE
+                UnauthorizedError:
+                    description: Unauthorized - invalid or missing authentication
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                message: INVALID_CREDENTIALS
+                NotFoundError:
+                    description: Resource not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ErrorResponse'
+                            example:
+                                message: USER_NOT_FOUND
+        security:
+            - Bearer: []
+    areas:
+        default:
+            path_patterns:
+                - ^/(?!(doc|_)) # Exclude /doc, /_error, /_profiler, etc.
+            host_patterns:
+                - ^.*$

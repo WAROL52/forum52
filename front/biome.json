@@ -1,0 +1,84 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "files": {
+    "ignoreUnknown": true,
+    "includes": ["**", "!node_modules", "!.next", "!dist", "!build"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "linter": {
+    "domains": {
+      "next": "recommended",
+      "react": "recommended"
+    },
+    "enabled": true,
+    "rules": {
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "useSemanticElements": "off",
+        "useKeyWithClickEvents": "error"
+      },
+      "complexity": {
+        "noBannedTypes": "off",
+        "noExcessiveLinesPerFunction": {
+          "level": "error",
+          "options": {
+            "maxLines": 255,
+            "skipBlankLines": true,
+            "skipIifes": true
+          }
+        }
+      },
+      "correctness": {
+        "noEmptyPattern": "off",
+        "noUnusedFunctionParameters": "off"
+      },
+      "nursery": {
+        "noImportCycles": {
+          "level": "error",
+          "options": {
+            "ignoreTypes": true
+          }
+        },
+        "useSortedClasses": {
+          "level": "info",
+          "fix": "safe",
+          "options": {
+            "attributes": ["classList"],
+            "functions": ["cn", "classNames", "clsx", "tw", "tw."]
+          }
+        }
+      },
+      "recommended": true,
+      "style": {
+        "useFilenamingConvention": {
+          "level": "error",
+          "options": {
+            "filenameCases": ["kebab-case"],
+            "requireAscii": true,
+            "strictCase": true
+          }
+        }
+      },
+      "suspicious": {
+        "noExplicitAny": "off",
+        "noUnknownAtRules": "off"
+      }
+    }
+  },
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true,
+    "useIgnoreFile": true
+  }
+}

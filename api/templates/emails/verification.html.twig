@@ -1,0 +1,23 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block header_title %}
+    Vérification de votre email
+{% endblock %}
+
+{% block greeting %}
+    Bonjour,
+{% endblock %}
+
+{% block content %}
+    <p>Pour compléter votre inscription, veuillez utiliser le code de vérification ci-dessous :</p>
+
+    <div style="font-size: 32px; font-weight: bold; color: #2c3e50; text-align: center; background-color: #fff; padding: 20px; border-radius: 8px; letter-spacing: 5px; margin: 20px 0; border: 2px dashed #3498db;">
+        {{ verificationCode }}
+    </div>
+
+    <div class="info-box">
+        <strong>⏰ Ce code expire dans {{ expirationMinutes }} minutes.</strong>
+    </div>
+
+    <p>Si vous n'avez pas créé de compte, vous pouvez ignorer cet email en toute sécurité.</p>
+{% endblock %}

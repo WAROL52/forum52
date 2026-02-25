@@ -1,0 +1,119 @@
+{
+  "Next Client Component": {
+    "body": [
+      "\"use client\";",
+      "",
+      "export type ${1:${TM_FILENAME_BASE/(^|-)(.)([^\\.\\-]+)?(\\..*)?/${2:/upcase}$3/g}}Props = {};",
+      "",
+      "export function $1({}: $1Props) {",
+      "  return <div>$1</div>;",
+      "}"
+    ],
+    "description": "Snippet pour un composant React TSX avec le nom du dossier parent",
+    "prefix": "ncc"
+  },
+  "Next Form Field": {
+    "body": [
+      "\"use client\";",
+      "",
+      "import { type ComponentProps, useId } from \"react\";",
+      "import {",
+      "  Field,",
+      "  FieldDescription,",
+      "  FieldError,",
+      "  FieldLabel,",
+      "} from \"@/components/ui/field\";",
+      "import { Input } from \"@/components/ui/input\";",
+      "import { createFieldComponent } from \"@/forms/create-field-component\";",
+      "import { AppField } from \"@/forms/fields/app-field\";",
+      "",
+      "export type ${1:${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}}Props = ComponentProps<typeof $1>;",
+      "",
+      "export const $1 = createFieldComponent<$1Props>(",
+      "  ({ inputProps, ...fieldProps }) => {",
+      "    const id = useId();",
+      "    return (",
+      "      <AppField {...fieldProps}>",
+      "        {({ field, fieldState }) => (",
+      "          <Field data-invalid={fieldState.invalid}>",
+      "            {fieldProps.label && (",
+      "              <FieldLabel htmlFor={id}>{fieldProps.label}</FieldLabel>",
+      "            )}",
+      "            <Input",
+      "              {...inputProps}",
+      "              {...field}",
+      "              value={field.value || fieldProps.defaultValue || \"\"}",
+      "              id={id}",
+      "              aria-invalid={fieldState.invalid}",
+      "              placeholder={fieldProps.placeholder}",
+      "            />",
+      "            {fieldProps.description && (",
+      "              <FieldDescription>{fieldProps.description}</FieldDescription>",
+      "            )}",
+      "            {fieldState.invalid && <FieldError errors={[fieldState.error]} />}",
+      "          </Field>",
+      "        )}",
+      "      </AppField>",
+      "    );",
+      "  },",
+      ");",
+      ""
+    ],
+    "description": "",
+    "prefix": "nff"
+  },
+  "next hook client": {
+    "body": [
+      "\"use client\"",
+      "",
+      "export type ${1:${TM_FILENAME_BASE/(^|-)(.)([^\\.\\-]+)?(\\..*)?/${2:/upcase}$3/g}}Props = {};",
+      "",
+      "export function ${2:${TM_FILENAME_BASE/(-)(.)([^\\.\\-]+)?(\\..*)?/${2:/upcase}$3/g}}({}: $1Props = {}) {",
+      "\treturn {};",
+      "}"
+    ],
+    "prefix": "nhc"
+  },
+  "Next Layout Component": {
+    "body": [
+      "import React from \"react\";",
+      "",
+      "export default async function ${TM_DIRECTORY/.*\\/\\[?(.)([\\d\\w]+)\\]?(\\/\\([\\w]+\\))*$/${1:/upcase}$2/}Layout(props: LayoutProps<\"/$1\">) {",
+      "\tconst params = await props.params;",
+      "",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t<h1>Layout</h1>",
+      "\t\t\t<pre>Params: {JSON.stringify(params, null, 2)}</pre>",
+      "\t\t\t<div>Children: </div>",
+      "\t\t\t<div className=\"container mx-auto bg-muted/50\">{props.children}</div>",
+      "\t\t\t<footer>Footer content here</footer>",
+      "\t\t</div>",
+      "\t);",
+      "}",
+      ""
+    ],
+    "description": "",
+    "prefix": "nlc"
+  },
+  "Next Page Component": {
+    "body": [
+      "import React from \"react\";",
+      "",
+      "",
+      "export default async function ${TM_DIRECTORY/.*\\/\\[?(.)([\\d\\w]+)\\]?(\\/\\([\\w]+\\))*$/${1:/upcase}$2/}Page(props: PageProps<\"/$1\">) {",
+      "\tconst params = await props.params;",
+      "",
+      "\treturn (",
+      "\t\t<div>",
+      "\t\t\t<h1>Page</h1>",
+      "\t\t\t<pre>Params: {JSON.stringify(params, null, 2)}</pre>",
+      "\t\t\t<footer>Footer content here</footer>",
+      "\t\t</div>",
+      "\t);",
+      "}"
+    ],
+    "description": "",
+    "prefix": "npc"
+  }
+}

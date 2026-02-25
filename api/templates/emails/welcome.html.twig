@@ -1,0 +1,22 @@
+{% extends 'emails/base.html.twig' %}
+
+{% block header_title %}
+    Inscription confirmée
+{% endblock %}
+
+{% block greeting %}
+    Bonjour {{ userName }},
+{% endblock %}
+
+{% block content %}
+    <p>Votre compte a été créé avec succès.</p>
+
+    <div class="success-box">
+        <strong>✓ Votre compte est actif</strong>
+        <p style="margin-top: 10px; margin-bottom: 0;">
+            Vous pouvez maintenant vous connecter.
+        </p>
+    </div>
+
+    <p>Si vous n'avez pas créé ce compte, veuillez nous contacter.</p>
+{% endblock %}

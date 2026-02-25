@@ -1,0 +1,11 @@
+# Swagger UI HTML interface
+app.swagger_ui:
+    path: /doc
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_ui }
+
+# Documentation JSON
+app.swagger_json:
+    path: /doc.json
+    methods: GET
+    defaults: { _controller: nelmio_api_doc.controller.swagger_json }
